@@ -1,0 +1,317 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" For Vundle
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'itchyny/lightline.vim'
+Plugin 'itchyny/landscape.vim'
+Plugin 'aquach/vim-mediawiki-editor'
+Plugin 'chikamichi/mediawiki.vim'
+
+call vundle#end()
+
+" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'landscape',
+      \ }
+
+" MediaWiki editor
+let g:mediawiki_editor_url = "wiki.spru.sr" " personal wiki url
+let g:mediawiki_editor_path = "/"
+let g:mediawiki_editor_username = "sprusr"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Number of lines of history to remember
+set history=500
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" Reload file when changed externally
+set autoread
+
+" Map <leader> to ,
+let mapleader = ","
+let g:mapleader = ","
+
+" ,w to save
+nmap <leader>w :w!<cr>
+
+" :W uses sudo to save
+command W w !sudo tee % > /dev/null
+
+" Yank and paste using system clipboard
+set clipboard=unnamed
+
+" Autocompletion with better setup (http://vim.wikia.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE)
+set omnifunc=syntaxcomplete#Complete
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <NUL> <C-x><C-o>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VIM UI
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Have 7 lines at top and bottom 
+set so=7
+
+" Set language
+let $LANG='en'
+set langmenu=en
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+" Enable wildmenu
+set wildmenu
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+" Always show current position
+set ruler
+
+" Set height of command bar
+set cmdheight=2
+
+" Hide buffer when abandoned
+set hid
+
+" Set backspace to act better
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+" Ignore case when searching
+set ignorecase
+
+" Be smart about case when searching
+set smartcase
+
+" Highlight search results
+set hlsearch
+
+" Make search act like in modern browsers
+set incsearch
+
+" Don't redraw while executing macros (performance)
+set lazyredraw
+
+" Magic for regex
+set magic
+" How many tenths of a second to vlink when matching brackets
+set mat=2
+
+" Disable error sounds
+set noerrorbells
+set visualbell
+set t_vb=
+set tm=500
+" ...and for MacVim
+if has("gui_macvim")
+    autocmd GUIEnter * set vb t_vb=
+endif
+
+" Add left margin
+" set foldcolumn=1
+
+" Set linenumbers
+set number
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Syntax highlighting
+syntax enable
+
+" 256 color in Gnome term
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
+
+try
+    colorscheme landscape
+catch
+endtry
+
+set background=dark
+
+" Options for GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
+
+" utf8 as standard
+set encoding=utf8
+
+" Unix as standard filetype
+set ffs=unix,dos,mac
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Disable backup
+set nobackup
+set nowb
+set noswapfile
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set expandtab
+
+set smarttab
+
+set shiftwidth=4
+set tabstop=4
+
+set lbr
+set tw=500
+
+set ai
+set si
+set wrap
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Visual mode related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" */# search for current selection
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+map <space> /
+map <c-space> ?
+
+map <silent> <leader><cr> :noh<cr>
+
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+
+" Close current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all buffers
+map <leader>ba :bufdo bd<cr>
+
+" Move between buffers with l/h
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Manage tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
+
+" Switch to last tab with tl
+let g:lasttab = 1
+nmap <leader>tl :exe "tabn ".g:lattab<cr>
+au TabLeave * let g:lasttab = tabpagenr()
+
+" Open new tab with current buffer's path
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+" Change cwd to current buffer's dir
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Set behaviour when switching between buffers
+try
+    set switchbuf=useopen,usetab,newtab
+    set stal=2
+catch
+endtry
+
+" Return to last edit position when opening files
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Status line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Always show status line
+set laststatus=2
+
+" Set what the status line displays
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Edit mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Remap VIM 0 to first non-blank char
+map 0 ^
+
+" Move a line of text using ALT+[jk] or Command+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+if has("mac") || has("macunix")
+    nmap <D-j> <M-j>
+    nmap <D-k> <M-k>
+    vmap <D-j> <M-j>
+    vmap <D-k> <M-k>
+endif
+
+func! DeleteTrailingWS()
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.coffee :call DeleteTrailingWS()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Misc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Quickly open a buffer for scribble
+map <leader>q :e ~/buffer<cr>
+
+" Quickly open a markdown buffer for scribble
+map <leader>x :e ~/buffer.md<cr>
+
+" Toggle paste mode on and off
+map <leader>pp :setlocal paste!<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
+endfunction

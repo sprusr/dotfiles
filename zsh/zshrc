@@ -13,9 +13,11 @@ plugins=(git osx sudo z tmux)
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# Use MacVim instead of system default
-alias vim="mvim -v"
-alias vi="vim"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Use MacVim instead of system default
+    alias vim="mvim -v"
+    alias vi="vim"
+fi
 
 export EDITOR="vim"
 export VISUAL="$EDITOR"
