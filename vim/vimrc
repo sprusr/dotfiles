@@ -59,12 +59,12 @@ set completeopt=longest,menuone
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <NUL> <C-x><C-o>
 
+" Enable mouse support (sorry)
+set mouse=a
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VIM UI
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Have 7 lines at top and bottom 
-set so=7
 
 " Set language
 let $LANG='en'
@@ -131,6 +131,9 @@ endif
 
 " Set linenumbers
 set number
+
+" Highlight line cursor is on
+set cursorline
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors and Fonts
@@ -250,6 +253,10 @@ endtry
 
 " Return to last edit position when opening files
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" Don't skip wrapped lines
+nnoremap j gj
+nnoremap k gk
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Status line
