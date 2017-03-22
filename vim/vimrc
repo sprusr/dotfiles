@@ -195,6 +195,9 @@ set ai
 set si
 set wrap
 
+" Auto wrap git commit messages
+au FileType gitcommit set tw=72
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Visual mode related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
