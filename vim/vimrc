@@ -11,8 +11,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'itchyny/lightline.vim'
 Plugin 'itchyny/landscape.vim'
-Plugin 'aquach/vim-mediawiki-editor'
-Plugin 'chikamichi/mediawiki.vim'
 
 call vundle#end()
 
@@ -20,11 +18,6 @@ call vundle#end()
 let g:lightline = {
       \ 'colorscheme': 'landscape',
       \ }
-
-" MediaWiki editor
-let g:mediawiki_editor_url = "wiki.spru.sr" " personal wiki url
-let g:mediawiki_editor_path = "/"
-let g:mediawiki_editor_username = "sprusr"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
