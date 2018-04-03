@@ -10,14 +10,9 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'itchyny/lightline.vim'
-Plugin 'itchyny/landscape.vim'
+Plugin 'morhetz/gruvbox'
 
 call vundle#end()
-
-" Lightline
-let g:lightline = {
-      \ 'colorscheme': 'landscape',
-      \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -141,7 +136,7 @@ if $COLORTERM == 'gnome-terminal'
 endif
 
 try
-    colorscheme landscape
+    colorscheme gruvbox
 catch
 endtry
 
